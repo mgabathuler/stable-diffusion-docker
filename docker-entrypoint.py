@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse, datetime, inspect, os, warnings, sys
+import argparse, datetime, inspect, os, warnings, sys, hashlib
 import numpy as np
 import torch
 from PIL import Image
@@ -123,7 +123,9 @@ def stable_diffusion_pipeline(p):
 
 
 def stable_diffusion_inference(p):
-    prefix = p.prompt.replace(" ", "_")[:170]
+    # prefix = p.prompt.replace(" ", "_")[:170]
+    prefix = hashlib.md5(p.prompt.encode()).hexdigest()
+    open(os.path.join("output", f"{prefix}_prompt.txt"), "w").write(p.prompt).close()
     for j in range(p.n_iter):
         result = p.pipeline(**remove_unused_args(p))
 
@@ -276,7 +278,7 @@ def main():
     if not os.path.isdir(cache_dir):
         os.mkdir(cache_dir)
 
-    prompt_file = os.path.join("/home", "huggingface", "imput", args.promptfile)
+    prompt_file = os.path.join("/home", "huggingface", "input", args.promptfile)
     if os.path.isfile(prompt_file):
         args.prompt = open(prompt_file, 'r').read()
     print(args.prompt)
