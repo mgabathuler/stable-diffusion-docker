@@ -125,7 +125,7 @@ def stable_diffusion_pipeline(p):
 def stable_diffusion_inference(p):
     # prefix = p.prompt.replace(" ", "_")[:170]
     prefix = hashlib.md5(p.prompt.encode()).hexdigest()
-    open(os.path.join("output", f"{prefix}_prompt.txt"), "w").write(p.prompt).close()
+    open(os.path.join("output", f"{prefix}_prompt.txt"), "w").write(p.prompt)
     for j in range(p.n_iter):
         result = p.pipeline(**remove_unused_args(p))
 
