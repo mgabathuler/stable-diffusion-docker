@@ -148,6 +148,13 @@ def main():
         "--prompt", type=str, nargs="?", help="The prompt to render into an image"
     )
     parser.add_argument(
+        "--prompt-file",
+        type=str,
+        nargs="?",
+        help="Read prompt from file",
+        dest="promptfile"
+    )
+    parser.add_argument(
         "--n_samples",
         type=int,
         nargs="?",
@@ -269,10 +276,10 @@ def main():
     if not os.path.isdir(cache_dir):
         os.mkdir(cache_dir)
 
-    prompt_file = os.path.join("/home", "huggingface", "imput", args.prompt)
+    prompt_file = os.path.join("/home", "huggingface", "imput", args.promptfile)
     if os.path.isfile(prompt_file):
         args.prompt = open(prompt_file, 'r').read()
-
+    print(args.prompt)
     sys.stdout.flush()
 
     print(torch.cuda.is_available())
