@@ -269,7 +269,7 @@ def main():
     if not os.path.isdir(cache_dir):
         os.mkdir(cache_dir)
 
-    prompt_file = os.path.join("/home", "imput", args.prompt)
+    prompt_file = os.path.join("/home", "huggingface", "imput", args.prompt)
     if os.path.isfile(prompt_file):
         args.prompt = open(prompt_file, 'r').read()
 
