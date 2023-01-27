@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse, datetime, inspect, os, warnings
+import argparse, datetime, inspect, os, warnings, sys
 import numpy as np
 import torch
 from PIL import Image
@@ -79,7 +79,7 @@ def stable_diffusion_pipeline(p):
         p.mask = load_image(p.mask)
 
     if p.token is None:
-        with open("token.txt") as f:
+        with open("token/token.txt") as f:
             p.token = f.read().replace("\n", "")
 
     if p.seed == 0:
@@ -264,6 +264,18 @@ def main():
 
     if args.prompt0 is not None:
         args.prompt = args.prompt0
+
+    cache_dir = os.path.join("/home", "huggingface", ".cache")
+    if not os.path.isdir(cache_dir):
+        os.mkdir(cache_dir)
+
+    prompt_file = os.path.join("/home", "imput", args.prompt)
+    if os.path.isfile(prompt_file):
+        args.prompt = open(prompt_file, 'r').read()
+
+    sys.stdout.flush()
+
+    print(torch.cuda.is_available())
 
     pipeline = stable_diffusion_pipeline(args)
     stable_diffusion_inference(pipeline)

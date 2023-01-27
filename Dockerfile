@@ -15,11 +15,9 @@ WORKDIR /home/huggingface
 
 ENV USE_TORCH=1
 
-RUN mkdir -p /home/huggingface/.cache/huggingface \
-  && mkdir -p /home/huggingface/input \
-  && mkdir -p /home/huggingface/output
+RUN mkdir -p /home/huggingface/.cache
 
 COPY docker-entrypoint.py /usr/local/bin
-COPY token.txt /home/huggingface
+#COPY token.txt /home/huggingface
 
 ENTRYPOINT [ "docker-entrypoint.py" ]
